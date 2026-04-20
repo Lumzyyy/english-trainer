@@ -1,4 +1,112 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#6366f1"/>
-  <text x="50" y="68" text-anchor="middle" font-family="monospace" font-size="52" font-weight="bold" fill="white">E</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- Background gradient indigo -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+
+    <!-- Glow under book -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Clip left page -->
+    <clipPath id="cpL">
+      <rect x="72" y="130" width="176" height="252" rx="6"/>
+    </clipPath>
+    <!-- Clip right page -->
+    <clipPath id="cpR">
+      <rect x="264" y="130" width="176" height="252" rx="6"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Background ── -->
+  <rect width="512" height="512" rx="96" fill="url(#bgGrad)"/>
+
+  <!-- Subtle inner glow ring -->
+  <rect width="512" height="512" rx="96" fill="none"
+        stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+
+  <!-- ── Book shadow ── -->
+  <ellipse cx="256" cy="398" rx="164" ry="16"
+           fill="#1e1b4b" opacity="0.45"/>
+
+  <!-- ══════════════ LEFT PAGE — Drapeau FR ══════════════ -->
+  <!-- Page base (white) -->
+  <rect x="72" y="130" width="176" height="252" rx="6" fill="white"/>
+  <g clip-path="url(#cpL)">
+    <!-- Bleu -->
+    <rect x="72"  y="130" width="59" height="252" fill="#002395"/>
+    <!-- Blanc (déjà couvert par la base blanche) -->
+    <!-- Rouge -->
+    <rect x="190" y="130" width="58" height="252" fill="#ED2939"/>
+  </g>
+
+  <!-- ══════════════ RIGHT PAGE — Union Jack ══════════════ -->
+  <rect x="264" y="130" width="176" height="252" rx="6" fill="white"/>
+  <g clip-path="url(#cpR)">
+    <!-- Navy background -->
+    <rect x="264" y="130" width="176" height="252" fill="#012169"/>
+
+    <!-- ── St Andrew (diagonales blanches larges) ── -->
+    <!-- Diag 1: top-left → bottom-right -->
+    <line x1="264" y1="130" x2="440" y2="382" stroke="white" stroke-width="56"/>
+    <!-- Diag 2: top-right → bottom-left -->
+    <line x1="440" y1="130" x2="264" y2="382" stroke="white" stroke-width="56"/>
+
+    <!-- ── St Patrick (diagonales rouges fines, counterchargées) ── -->
+    <!-- Diag 1 -->
+    <line x1="264" y1="130" x2="440" y2="382" stroke="#C8102E" stroke-width="30"/>
+    <!-- Diag 2 -->
+    <line x1="440" y1="130" x2="264" y2="382" stroke="#C8102E" stroke-width="30"/>
+
+    <!-- ── Counterchange St Patrick : masques blancs pour décaler le rouge ── -->
+    <!-- Quadrant haut-gauche : masque blanc triangle inférieur de la diagonale →droite -->
+    <polygon points="264,130 352,130 264,256" fill="#012169"/>
+    <!-- Quadrant bas-droite -->
+    <polygon points="440,382 352,382 440,256" fill="#012169"/>
+
+    <!-- ── St George — croix blanche ── -->
+    <!-- Barre horizontale -->
+    <rect x="264" y="222" width="176" height="68" fill="white"/>
+    <!-- Barre verticale -->
+    <rect x="318" y="130" width="68" height="252" fill="white"/>
+
+    <!-- ── St George — croix rouge (centrée, plus fine) ── -->
+    <rect x="264" y="234" width="176" height="44" fill="#C8102E"/>
+    <rect x="330" y="130" width="44" height="252" fill="#C8102E"/>
+  </g>
+
+  <!-- ══════════════ Reliure & finitions ══════════════ -->
+  <!-- Ombre portée sous les pages (profondeur) -->
+  <rect x="72" y="374" width="176" height="8" rx="2"
+        fill="rgba(0,0,0,0.18)"/>
+  <rect x="264" y="374" width="176" height="8" rx="2"
+        fill="rgba(0,0,0,0.18)"/>
+
+  <!-- Bordure page gauche -->
+  <rect x="72" y="130" width="176" height="252" rx="6"
+        fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.5"/>
+  <!-- Bordure page droite -->
+  <rect x="264" y="130" width="176" height="252" rx="6"
+        fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.5"/>
+
+  <!-- Reliure centrale (spine) -->
+  <rect x="244" y="118" width="24" height="280" rx="12"
+        fill="#c7d2fe"/>
+  <!-- Highlight spine -->
+  <rect x="248" y="118" width="8" height="280" rx="4"
+        fill="rgba(255,255,255,0.6)"/>
+
+  <!-- Bas du livre — couverture arrondie -->
+  <path d="M 72,382 Q 72,394 84,394 L 428,394 Q 440,394 440,382"
+        fill="none" stroke="#c7d2fe" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Petites lignes de texte sur la page FR (effet écrit) -->
+  <line x1="152" y1="180" x2="236" y2="180" stroke="rgba(0,35,149,0.25)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="152" y1="198" x2="230" y2="198" stroke="rgba(0,35,149,0.25)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="152" y1="216" x2="236" y2="216" stroke="rgba(0,35,149,0.25)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="152" y1="234" x2="222" y2="234" stroke="rgba(0,35,149,0.25)" stroke-width="3" stroke-linecap="round"/>
 </svg>
