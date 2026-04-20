@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+
+:root {
+  --font-title: 'Space Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Light */
+  --bg: #f8fafc;
+  --bg2: #f1f5f9;
+  --bg3: #e2e8f0;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --accent: #6366f1;
+  --accent2: #818cf8;
+  --accent-bg: #eef2ff;
+  --success: #10b981;
+  --success-bg: #d1fae5;
+  --error: #ef4444;
+  --error-bg: #fee2e2;
+  --warn: #f59e0b;
+  --warn-bg: #fef3c7;
+  --tag-daily: #0ea5e9;
+  --tag-data: #8b5cf6;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.05);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+.dark {
+  --bg: #0f172a;
+  --bg2: #1e293b;
+  --bg3: #334155;
+  --surface: #1e293b;
+  --border: #334155;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --text3: #475569;
+  --accent: #818cf8;
+  --accent2: #6366f1;
+  --accent-bg: #1e1b4b;
+  --success: #34d399;
+  --success-bg: #064e3b;
+  --error: #f87171;
+  --error-bg: #450a0a;
+  --warn: #fbbf24;
+  --warn-bg: #451a03;
+  --tag-daily: #38bdf8;
+  --tag-data: #a78bfa;
+  --shadow: 0 1px 3px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.3);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.5);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  transition: background .2s, color .2s;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .mono { font-family: var(--font-title); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Utility */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: .7rem; font-weight: 600; letter-spacing: .04em;
+  padding: 2px 8px; border-radius: 20px; text-transform: uppercase;
+}
+.tag-daily { background: color-mix(in srgb, var(--tag-daily) 15%, transparent); color: var(--tag-daily); }
+.tag-data  { background: color-mix(in srgb, var(--tag-data)  15%, transparent); color: var(--tag-data);  }
+.tag-easy   { background: var(--success-bg); color: var(--success); }
+.tag-medium { background: var(--warn-bg);    color: var(--warn);    }
+.tag-hard   { background: var(--error-bg);   color: var(--error);   }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font-family: var(--font-body); font-size: .875rem; font-weight: 500;
+  padding: 8px 16px; border-radius: var(--radius-sm); border: none; cursor: pointer;
+  transition: all .15s; outline: none;
+}
+.btn:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--bg2); color: var(--text); }
+.btn-icon { padding: 8px; border-radius: var(--radius-sm); background: transparent; border: 1px solid var(--border); color: var(--text2); cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; justify-content: center; }
+.btn-icon:hover { background: var(--bg2); color: var(--text); }
+
+input[type=text], select {
+  font-family: var(--font-body); font-size: .95rem;
+  background: var(--bg2); color: var(--text);
+  border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 10px 14px; width: 100%; outline: none;
+  transition: border-color .15s;
+}
+input[type=text]:focus, select:focus { border-color: var(--accent); }
+
+/* Safe area for iPhone notch */
+.safe-top    { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
