@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { CheckCircle, XCircle, RotateCcw, ChevronRight, Lightbulb, Filter } from 'lucide-react'
+import SpeakBtn from './SpeakBtn'
 
 const TENSE_LABELS = {
   all:  'Tous',
@@ -100,7 +101,7 @@ function ExerciseCard({ ex, idx, total, onNext, onPrev }) {
         <div style={{ borderRadius: 8, padding: '12px 14px', marginBottom: 16, background: correct ? 'var(--success-bg)' : 'var(--error-bg)', border: `1px solid ${correct ? 'var(--success)' : 'var(--error)'}` }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: correct ? 4 : 8 }}>
             {correct
-              ? <><CheckCircle size={16} color="var(--success)" /><span style={{ color: 'var(--success)', fontWeight: 600 }}>Correct !</span></>
+              ? <><CheckCircle size={16} color="var(--success)" /><span style={{ color: 'var(--success)', fontWeight: 600 }}>Correct !</span><SpeakBtn text={ex.answer} /></>
               : <><XCircle size={16} color="var(--error)" /><span style={{ color: 'var(--error)', fontWeight: 600 }}>Incorrect</span></>
             }
           </div>
@@ -109,7 +110,10 @@ function ExerciseCard({ ex, idx, total, onNext, onPrev }) {
               <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginBottom: 3 }}>Ta réponse</div>
               <div style={{ fontFamily: 'var(--font-title)', fontSize: '.875rem', color: 'var(--error)' }}>{ex.type === 'choose' ? selected : input}</div>
               <div style={{ fontSize: '.72rem', color: 'var(--text3)', marginTop: 8, marginBottom: 3 }}>Bonne réponse</div>
-              <div style={{ fontFamily: 'var(--font-title)', fontSize: '.875rem', color: 'var(--success)' }}>{ex.answer}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div style={{ fontFamily: 'var(--font-title)', fontSize: '.875rem', color: 'var(--success)' }}>{ex.answer}</div>
+                <SpeakBtn text={ex.answer} />
+              </div>
             </div>
           )}
           <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { verbs, verbCategories } from '../data/verbs'
 import { Shuffle, Eye, EyeOff, Search } from 'lucide-react'
+import SpeakBtn from './SpeakBtn'
 
 function shuffle(arr) {
   const a = [...arr]
@@ -32,7 +33,10 @@ function FlashCard({ verb, mode }) {
             <div style={{ fontSize: '.7rem', color: 'var(--text3)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '.05em' }}>
               {mode === 'conj' ? 'Base' : 'Français'}
             </div>
-            <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.5rem', color: 'var(--text)' }}>{front}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.5rem', color: 'var(--text)' }}>{front}</div>
+              {mode === 'conj' && <SpeakBtn text={verb.base} size={16} />}
+            </div>
             <div style={{ fontSize: '.75rem', color: 'var(--text3)', marginTop: 10 }}>Appuie pour retourner</div>
           </>
         ) : (
@@ -40,8 +44,11 @@ function FlashCard({ verb, mode }) {
             <div style={{ fontSize: '.7rem', color: 'var(--text3)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '.05em' }}>
               {mode === 'conj' ? 'Past → Past Participle' : 'Base verb'}
             </div>
-            <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
-              {back}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+                {back}
+              </div>
+              <SpeakBtn text={mode === 'conj' ? `${verb.base}, ${verb.past}, ${verb.pp}` : verb.base} size={16} />
             </div>
             {mode === 'conj' && (
               <div style={{ fontSize: '.8rem', color: 'var(--text2)', marginTop: 8, fontStyle: 'italic' }}>{verb.fr}</div>
@@ -125,7 +132,11 @@ export default function VerbTable() {
             <tbody>
               {filtered.map((v, i) => (
                 <tr key={v.base} style={{ borderBottom: '1px solid var(--border)', background: i % 2 === 0 ? 'transparent' : 'var(--bg2)' }}>
-                  <td style={{ padding: '9px 12px', fontFamily: 'var(--font-title)', color: 'var(--accent)', fontWeight: 700 }}>{v.base}</td>
+                  <td style={{ padding: '9px 12px', fontFamily: 'var(--font-title)', color: 'var(--accent)', fontWeight: 700 }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      {v.base}<SpeakBtn text={v.base} size={13} />
+                    </span>
+                  </td>
                   <td style={{ padding: '9px 12px', fontFamily: 'var(--font-title)', color: 'var(--text)' }}>{v.past}</td>
                   <td style={{ padding: '9px 12px', fontFamily: 'var(--font-title)', color: 'var(--success)' }}>{v.pp}</td>
                   <td style={{ padding: '9px 12px', color: 'var(--text2)', fontStyle: 'italic' }}>{v.fr}</td>

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { vocabulary, vocabCategories } from '../data/vocabulary'
 import { ChevronDown, ChevronUp, Search, Shuffle, Volume2 } from 'lucide-react'
+import SpeakBtn from './SpeakBtn'
 
 function shuffle(arr) {
   const a = [...arr]
@@ -42,7 +43,10 @@ function ExampleBlock({ label, en, fr, context }) {
   return (
     <div style={{ borderLeft: `3px solid ${context === 'data' ? 'var(--tag-data)' : 'var(--tag-daily)'}`, paddingLeft: 10, marginBottom: 8 }}>
       <div style={{ fontSize: '.7rem', color: 'var(--text3)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '.04em' }}>{label}</div>
-      <div style={{ fontFamily: 'var(--font-title)', fontSize: '.82rem', color: 'var(--text)', lineHeight: 1.5 }}>{en}</div>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
+        <div style={{ fontFamily: 'var(--font-title)', fontSize: '.82rem', color: 'var(--text)', lineHeight: 1.5, flex: 1 }}>{en}</div>
+        <SpeakBtn text={en} />
+      </div>
       <div style={{ fontSize: '.78rem', color: 'var(--text2)', fontStyle: 'italic', marginTop: 2 }}>{fr}</div>
     </div>
   )
@@ -52,21 +56,24 @@ function WordAccordion({ item, isOpen, onToggle }) {
   const color = catColors[item.category] || 'var(--accent)'
   return (
     <div className="card" style={{ overflow: 'hidden', marginBottom: 8 }}>
-      <button
-        onClick={onToggle}
-        style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '13px 16px', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left' }}
-      >
-        <div style={{ width: 3, height: 36, borderRadius: 2, background: color, flexShrink: 0 }} />
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-title)', fontSize: '.95rem', color: 'var(--text)', fontWeight: 600 }}>{item.word}</span>
-            <PronBadge text={item.pronunciation} />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <button
+          onClick={onToggle}
+          style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 12, padding: '13px 16px', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', minWidth: 0 }}
+        >
+          <div style={{ width: 3, height: 36, borderRadius: 2, background: color, flexShrink: 0 }} />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ fontFamily: 'var(--font-title)', fontSize: '.95rem', color: 'var(--text)', fontWeight: 600 }}>{item.word}</span>
+              <PronBadge text={item.pronunciation} />
+            </div>
+            <div style={{ fontSize: '.82rem', color: 'var(--text2)', marginTop: 2, fontStyle: 'italic' }}>{item.fr}</div>
           </div>
-          <div style={{ fontSize: '.82rem', color: 'var(--text2)', marginTop: 2, fontStyle: 'italic' }}>{item.fr}</div>
-        </div>
-        <CategoryBadge category={item.category} />
-        {isOpen ? <ChevronUp size={16} color="var(--text3)" style={{ flexShrink: 0 }} /> : <ChevronDown size={16} color="var(--text3)" style={{ flexShrink: 0 }} />}
-      </button>
+          <CategoryBadge category={item.category} />
+          {isOpen ? <ChevronUp size={16} color="var(--text3)" style={{ flexShrink: 0 }} /> : <ChevronDown size={16} color="var(--text3)" style={{ flexShrink: 0 }} />}
+        </button>
+        <SpeakBtn text={item.word} style={{ marginRight: 12 }} />
+      </div>
 
       {isOpen && (
         <div style={{ padding: '0 16px 16px 16px', borderTop: '1px solid var(--border)' }}>
@@ -103,7 +110,10 @@ function FlashCard({ item, onNext, onPrev, idx, total }) {
           ) : (
             <>
               <div style={{ fontSize: '.7rem', color: 'var(--text3)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '.05em' }}>Réponse</div>
-              <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.3rem', color, fontWeight: 700 }}>{item.word}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.3rem', color, fontWeight: 700 }}>{item.word}</div>
+                <SpeakBtn text={item.word} size={16} />
+              </div>
               <PronBadge text={item.pronunciation} />
               <CategoryBadge category={item.category} />
               {item.note && (

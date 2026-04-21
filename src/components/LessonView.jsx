@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ChevronDown, ChevronUp, BookOpen } from 'lucide-react'
+import SpeakBtn from './SpeakBtn'
 
 function RuleCard({ rule, detail }) {
   return (
@@ -13,7 +14,10 @@ function RuleCard({ rule, detail }) {
 function ExampleRow({ en, fr, context }) {
   return (
     <div style={{ borderLeft: `3px solid ${context === 'data' ? 'var(--tag-data)' : 'var(--tag-daily)'}`, paddingLeft: 12, marginBottom: 10 }}>
-      <div style={{ fontFamily: 'var(--font-title)', fontSize: '.88rem', color: 'var(--text)', lineHeight: 1.5 }}>{en}</div>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
+        <div style={{ fontFamily: 'var(--font-title)', fontSize: '.88rem', color: 'var(--text)', lineHeight: 1.5, flex: 1 }}>{en}</div>
+        <SpeakBtn text={en} />
+      </div>
       <div style={{ fontSize: '.8rem', color: 'var(--text2)', marginTop: 2, fontStyle: 'italic' }}>{fr}</div>
       <span className={`tag tag-${context}`} style={{ marginTop: 4 }}>{context === 'data' ? '⚡ Data/IA' : '☀️ Quotidien'}</span>
     </div>
@@ -29,13 +33,19 @@ function PairsView({ pairs }) {
           {/* 1st conditional */}
           <div style={{ borderLeft: '4px solid #6366f1', padding: '10px 14px', borderBottom: '1px solid var(--border)' }}>
             <div style={{ fontSize: '.68rem', fontFamily: 'var(--font-title)', color: '#6366f1', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 4 }}>1st Conditional — possible</div>
-            <div style={{ fontFamily: 'var(--font-title)', fontSize: '.88rem', color: 'var(--text)', lineHeight: 1.5 }}>{pair.c1.en}</div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
+              <div style={{ fontFamily: 'var(--font-title)', fontSize: '.88rem', color: 'var(--text)', lineHeight: 1.5, flex: 1 }}>{pair.c1.en}</div>
+              <SpeakBtn text={pair.c1.en} />
+            </div>
             <div style={{ fontSize: '.78rem', color: 'var(--text2)', fontStyle: 'italic', marginTop: 2 }}>{pair.c1.fr}</div>
           </div>
           {/* 2nd conditional */}
           <div style={{ borderLeft: '4px solid #8b5cf6', padding: '10px 14px' }}>
             <div style={{ fontSize: '.68rem', fontFamily: 'var(--font-title)', color: '#8b5cf6', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 4 }}>2nd Conditional — hypothétique</div>
-            <div style={{ fontFamily: 'var(--font-title)', fontSize: '.88rem', color: 'var(--text)', lineHeight: 1.5 }}>{pair.c2.en}</div>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
+              <div style={{ fontFamily: 'var(--font-title)', fontSize: '.88rem', color: 'var(--text)', lineHeight: 1.5, flex: 1 }}>{pair.c2.en}</div>
+              <SpeakBtn text={pair.c2.en} />
+            </div>
             <div style={{ fontSize: '.78rem', color: 'var(--text2)', fontStyle: 'italic', marginTop: 2 }}>{pair.c2.fr}</div>
           </div>
           {/* Note */}
