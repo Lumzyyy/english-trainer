@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { CheckCircle, XCircle, RotateCcw, ChevronRight, Lightbulb, Filter } from 'lucide-react'
 import SpeakBtn from './SpeakBtn'
 
@@ -28,17 +28,33 @@ function TenseBadge({ tense }) {
   )
 }
 
+function shuffleArr(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 function ExerciseCard({ ex, idx, total, onNext, onPrev }) {
   const [input, setInput]     = useState('')
   const [selected, setSelected] = useState(null)
   const [submitted, setSubmitted] = useState(false)
+  const shuffledOptions = useRef(ex.options ? shuffleArr(ex.options) : null)
+
+  const normalize = (s) =>
+    s.toLowerCase()
+      .replace(/'/g, "'")           // apostrophes typographiques
+      .replace(/[.,!?;:…]+$/g, '')  // ponctuation finale
+      .replace(/\s+/g, ' ')         // espaces multiples
+      .trim()
 
   const isCorrect = () => {
-    const ans      = ex.type === 'choose' ? selected : input.trim().toLowerCase()
-    const expected = ex.answer.toLowerCase()
-    if (ex.type === 'choose') return ans === expected
-    const variants = expected.split('/').map(v => v.trim())
-    return variants.some(v => ans === v || ans.replace(/'/g, "'") === v.replace(/'/g, "'"))
+    if (ex.type === 'choose') return selected === ex.answer.toLowerCase()
+    const ans = normalize(input)
+    const variants = ex.answer.split('/').map(v => normalize(v))
+    return variants.some(v => ans === v)
   }
 
   const handleSubmit = () => {
@@ -75,7 +91,7 @@ function ExerciseCard({ ex, idx, total, onNext, onPrev }) {
       {/* Input */}
       {ex.type === 'choose' ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
-          {ex.options.map(opt => {
+          {(shuffledOptions.current ?? ex.options).map(opt => {
             let bg = 'var(--bg2)', border = '1.5px solid var(--border)', color = 'var(--text)'
             if (!submitted && selected === opt) { border = '1.5px solid var(--accent)'; bg = 'var(--accent-bg)' }
             if (submitted && opt === ex.answer)  { border = '1.5px solid var(--success)'; bg = 'var(--success-bg)'; color = 'var(--success)' }
@@ -138,7 +154,6 @@ function ExerciseCard({ ex, idx, total, onNext, onPrev }) {
 export default function ExerciseView({ exercises }) {
   const [idx, setIdx]               = useState(0)
   const [levelFilter, setLevelFilter]     = useState('all')
-  const [contextFilter, setContextFilter] = useState('all')
   const [tenseFilter, setTenseFilter]     = useState('all')
   const [showFilters, setShowFilters]     = useState(false)
 
@@ -150,10 +165,9 @@ export default function ExerciseView({ exercises }) {
 
   const filtered = useMemo(() =>
     exercises.filter(e =>
-      (levelFilter   === 'all' || e.level   === levelFilter) &&
-      (contextFilter === 'all' || e.context === contextFilter) &&
-      (tenseFilter   === 'all' || !hasTense || e.tense === tenseFilter)
-    ), [exercises, levelFilter, contextFilter, tenseFilter, hasTense])
+      (levelFilter === 'all' || e.level === levelFilter) &&
+      (tenseFilter === 'all' || !hasTense || e.tense === tenseFilter)
+    ), [exercises, levelFilter, tenseFilter, hasTense])
 
   const safeIdx = Math.min(idx, Math.max(0, filtered.length - 1))
   const current = filtered[safeIdx]
@@ -191,18 +205,6 @@ export default function ExerciseView({ exercises }) {
               ))}
             </div>
           </div>
-          {/* Context */}
-          <div>
-            <div style={{ fontSize: '.68rem', color: 'var(--text3)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '.05em' }}>Contexte</div>
-            <div style={{ display: 'flex', gap: 5 }}>
-              {['all', 'daily', 'data'].map(c => (
-                <button key={c} className={`btn ${contextFilter === c ? 'btn-primary' : 'btn-ghost'}`} style={{ fontSize: '.72rem', padding: '3px 9px' }}
-                  onClick={() => { setContextFilter(c); setIdx(0) }}>
-                  {c === 'all' ? 'Tous' : c === 'daily' ? '☀️' : '⚡ Data'}
-                </button>
-              ))}
-            </div>
-          </div>
           {/* Tense filter (only when available) */}
           {hasTense && (
             <div>
@@ -219,7 +221,7 @@ export default function ExerciseView({ exercises }) {
           )}
           {/* Reset */}
           <button className="btn btn-ghost" style={{ alignSelf: 'flex-end', fontSize: '.72rem', padding: '3px 9px' }}
-            onClick={() => { setLevelFilter('all'); setContextFilter('all'); setTenseFilter('all'); setIdx(0) }}>
+            onClick={() => { setLevelFilter('all'); setTenseFilter('all'); setIdx(0) }}>
             <RotateCcw size={11} /> Reset
           </button>
         </div>

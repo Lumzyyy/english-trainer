@@ -1,24 +1,21 @@
 import { useState } from 'react'
-import { Moon, Sun, BookOpen, PenLine, GitBranch, FlaskConical, Table2, Map, BookMarked } from 'lucide-react'
+import { Moon, Sun, BookOpen, GitBranch, Table2, Map, BookMarked, PenLine } from 'lucide-react'
 import { useTheme } from './hooks/useTheme'
 import LessonView from './components/LessonView'
-import ExerciseView from './components/ExerciseView'
+import ExerciseHub from './components/ExerciseHub'
 import VerbTable from './components/VerbTable'
 import VocabularyView from './components/VocabularyView'
 import Summary from './components/Summary'
 import { lessonsPast } from './data/lessons-past'
 import { lessonsCond } from './data/lessons-cond'
-import { exercisesPast } from './data/exercises-past'
-import { exercisesCond } from './data/exercises-cond'
 
 const TABS = [
-  { id: 'past',    label: 'Passé',      shortLabel: 'Passé',  icon: BookOpen,     color: '#6366f1' },
-  { id: 'ex-past', label: 'Exos Passé', shortLabel: 'Ex·P',   icon: PenLine,      color: '#8b5cf6' },
-  { id: 'cond',    label: 'Cond.',      shortLabel: 'Cond.',  icon: GitBranch,    color: '#f59e0b' },
-  { id: 'ex-cond', label: 'Exos Cond.', shortLabel: 'Ex·C',   icon: FlaskConical, color: '#10b981' },
-  { id: 'verbs',   label: 'Verbes',     shortLabel: 'Verbes', icon: Table2,       color: '#0ea5e9' },
-  { id: 'vocab',   label: 'Vocab',      shortLabel: 'Vocab',  icon: BookMarked,   color: '#ec4899' },
-  { id: 'summary', label: 'Résumé',     shortLabel: 'Résumé', icon: Map,          color: '#ef4444' },
+  { id: 'past',      label: 'Passé',     shortLabel: 'Passé',  icon: BookOpen,   color: '#6366f1' },
+  { id: 'cond',      label: 'Cond.',     shortLabel: 'Cond.',  icon: GitBranch,  color: '#f59e0b' },
+  { id: 'verbs',     label: 'Verbes',    shortLabel: 'Verbes', icon: Table2,     color: '#0ea5e9' },
+  { id: 'vocab',     label: 'Vocab',     shortLabel: 'Vocab',  icon: BookMarked, color: '#ec4899' },
+  { id: 'summary',   label: 'Résumé',    shortLabel: 'Résumé', icon: Map,        color: '#ef4444' },
+  { id: 'exercises', label: 'Exercices', shortLabel: 'Exos',   icon: PenLine,    color: '#8b5cf6' },
 ]
 
 export default function App() {
@@ -71,13 +68,12 @@ export default function App() {
 
       {/* Content */}
       <main style={{ flex: 1, padding: '16px 16px calc(16px + env(safe-area-inset-bottom))', maxWidth: 760, margin: '0 auto', width: '100%' }}>
-        {tab === 'past'    && <LessonView lessons={lessonsPast} />}
-        {tab === 'ex-past' && <ExerciseView exercises={exercisesPast} />}
-        {tab === 'cond'    && <LessonView lessons={lessonsCond} />}
-        {tab === 'ex-cond' && <ExerciseView exercises={exercisesCond} />}
-        {tab === 'verbs'   && <VerbTable />}
-        {tab === 'vocab'   && <VocabularyView />}
-        {tab === 'summary' && <Summary />}
+        {tab === 'past'      && <LessonView lessons={lessonsPast} />}
+        {tab === 'cond'      && <LessonView lessons={lessonsCond} />}
+        {tab === 'verbs'     && <VerbTable />}
+        {tab === 'vocab'     && <VocabularyView />}
+        {tab === 'summary'   && <Summary />}
+        {tab === 'exercises' && <ExerciseHub />}
       </main>
     </div>
   )

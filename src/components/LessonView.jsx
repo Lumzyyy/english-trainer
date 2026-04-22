@@ -3,10 +3,19 @@ import { ChevronDown, ChevronUp, BookOpen } from 'lucide-react'
 import SpeakBtn from './SpeakBtn'
 
 function RuleCard({ rule, detail }) {
+  const exIdx = detail.indexOf(' Ex:')
+  const mainText = exIdx !== -1 ? detail.slice(0, exIdx) : detail
+  const exText   = exIdx !== -1 ? detail.slice(exIdx + 1) : null
+
   return (
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, padding: '12px 14px', marginBottom: 8 }}>
       <div style={{ fontFamily: 'var(--font-title)', fontSize: '.78rem', color: 'var(--accent)', marginBottom: 4 }}>{rule}</div>
-      <div style={{ fontSize: '.875rem', color: 'var(--text2)', lineHeight: 1.5 }}>{detail}</div>
+      <div style={{ fontSize: '.875rem', color: 'var(--text2)', lineHeight: 1.5 }}>{mainText}</div>
+      {exText && (
+        <div style={{ marginTop: 6, fontSize: '.82rem', color: 'var(--text3)', fontStyle: 'italic', borderLeft: '2px solid var(--border)', paddingLeft: 8 }}>
+          {exText}
+        </div>
+      )}
     </div>
   )
 }
